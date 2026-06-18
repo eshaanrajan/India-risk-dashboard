@@ -17,6 +17,7 @@ A Python tool for risk analysis of Indian equities.
 
 ## Key finding
 Individual stocks (HDFC Bank, Reliance) carried significantly more risk than the Nifty 50 index but did not proportionally reward investors — Reliance's negative Sharpe ratio over this period means investors would have been better off in risk-free government securities. This illustrates the practical value of diversification.
+![Drawdown analysis](max_drawdown.png)
 
 ## Built with
 Python, pandas, yfinance, matplotlib, numpy
