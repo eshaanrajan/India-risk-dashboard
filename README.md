@@ -19,7 +19,7 @@ A Python tool for risk analysis of Indian equities.
 Individual stocks (HDFC Bank, Reliance) carried significantly more risk than the Nifty 50 index but did not proportionally reward investors — Reliance's negative Sharpe ratio over this period means investors would have been better off in risk-free government securities. This illustrates the practical value of diversification.
 ![Drawdown analysis](max_drawdown.png)
 
-## Portfolio analysis (Week 1, Day 6)
+## Portfolio analysis 
 
 Built an equal-weighted 3-stock portfolio (HDFC Bank, Reliance, Infosys) to test diversification in practice.
 
@@ -41,6 +41,18 @@ Built an equal-weighted 3-stock portfolio (HDFC Bank, Reliance, Infosys) to test
 
 ![Correlation heatmap](correlation_heatmap.png)
 
+## Strategy comparison 
+
+Built and compared three portfolio weighting strategies — Equal Weight, Defensive, and Decorrelation — over the same Jan 2023–Dec 2024 period, then evaluated them on a risk-adjusted basis rather than raw return alone.
+
+| Strategy | Annualised Return | Annualised Vol | Sharpe Ratio | Max Drawdown |
+|---|---|---|---|---|
+| Equal Weight | 8.68% | 14.91% | 0.146 | -11.43% |
+| Defensive | 8.21% | 15.01% | 0.114 | -11.84% |
+| Decorrelation | 7.46% | 15.45% | 0.062 | -11.95% |
+
+**Key finding:** Decorrelation had the highest cumulative return on the growth-of-₹1 chart, but the lowest Sharpe ratio — it took on more volatility and a deeper drawdown without enough extra return to compensate. Equal Weight, despite a lower headline return, had the best risk-adjusted performance. This reinforces the same lesson as Week 1: the strategy that "wins" on a chart isn't necessarily the best one once risk is accounted for.
+
 **Key finding:** Combining three stocks from different sectors (banking, IT services, energy) reduced portfolio volatility by 6.18 percentage points versus the simple average of the individual stocks — a direct, quantified demonstration of diversification. This works because the pairwise correlations are low (0.17–0.34), meaning the stocks rarely have their worst days at the same time.
 
 On a ₹10L portfolio, this analysis implies a 1-in-20 day loss exceeding ₹13,262 (95% VaR) and a 1-in-100 day loss exceeding ₹24,961 (99% VaR).
@@ -49,4 +61,4 @@ On a ₹10L portfolio, this analysis implies a 1-in-20 day loss exceeding ₹13,
 Python, pandas, yfinance, matplotlib, numpy
 
 ## Status
-🚧 In progress — Week 1 of 8. Currently building portfolio-level analysis (Week 2-3).
+🚧 In progress — Week 2 of 8. Currently building portfolio-level analysis (Week 2-3).
