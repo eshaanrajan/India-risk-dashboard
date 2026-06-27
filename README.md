@@ -57,6 +57,18 @@ Built and compared three portfolio weighting strategies — Equal Weight, Defens
 
 On a ₹10L portfolio, this analysis implies a 1-in-20 day loss exceeding ₹13,262 (95% VaR) and a 1-in-100 day loss exceeding ₹24,961 (99% VaR).
 
+## Value at Risk — Historical vs. Monte Carlo 
+
+Calculated 1-day Value at Risk (VaR) for each strategy using two methods: Historical VaR (based on actual realized daily returns) and Monte Carlo VaR (based on 10,000 simulated days drawn from a multivariate normal distribution fitted to the same data).
+
+| Strategy | Historical VaR 95% | MC VaR 95% | Historical VaR 99% | MC VaR 99% |
+|---|---|---|---|---|
+| Equal Weight | -1.33% | -1.51% | -2.50% | -2.13% |
+| Defensive | -1.37% | -1.49% | -2.77% | -2.13% |
+| Decorrelation | -1.33% | -1.54% | -2.47% | -2.13% |
+
+**Key finding:** The two methods disagree on which strategy is riskiest. Historical VaR flags Defensive as the worst performer at both confidence levels — despite being built to minimize variance, it has the worst tail risk historically. Monte Carlo VaR instead shows all three strategies converging to nearly identical 99% VaR (~-2.13%), understating the risk that Historical VaR captures. This is the classic limitation of a normal-distribution assumption: real markets have "fatter tails" than a bell curve predicts, so Monte Carlo simulation structurally cannot reproduce extreme historical events. This illustrates that **VaR methodology choice can change which portfolio looks riskiest** — a key reason risk teams use multiple approaches rather than relying on one.
+
 ## Built with
 Python, pandas, yfinance, matplotlib, numpy
 
