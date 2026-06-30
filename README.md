@@ -69,6 +69,52 @@ Calculated 1-day Value at Risk (VaR) for each strategy using two methods: Histor
 
 **Key finding:** The two methods disagree on which strategy is riskiest. Historical VaR flags Defensive as the worst performer at both confidence levels — despite being built to minimize variance, it has the worst tail risk historically. Monte Carlo VaR instead shows all three strategies converging to nearly identical 99% VaR (~-2.13%), understating the risk that Historical VaR captures. This is the classic limitation of a normal-distribution assumption: real markets have "fatter tails" than a bell curve predicts, so Monte Carlo simulation structurally cannot reproduce extreme historical events. This illustrates that **VaR methodology choice can change which portfolio looks riskiest** — a key reason risk teams use multiple approaches rather than relying on one.
 
+## Week 3: Multi-Asset Extension & Stress Testing
+
+**Status:** Complete | Notebooks: `Week3_Day1.ipynb`, `Week3_Day2.ipynb`
+
+### What's new
+- Extended portfolio from 3 to 5 NSE stocks: HDFC Bank, Reliance, Infosys, ICICI Bank, ITC
+- Added interactive correlation heatmap (Plotly)
+- Generalized `risk_report()` to accept a DataFrame and report on any number of assets/portfolios in a single call
+- Recomputed all three weighting strategies (Equal Weight, Defensive/min-variance, Decorrelation) for 5 assets
+- Compared Historical vs Monte Carlo VaR for 5-stock strategies
+- Stress-tested the 5-year-optimized portfolio against the COVID crash (Feb–Apr 2020)
+- Analyzed rolling 60-day volatility and HDFC–ICICI correlation across the full sample period
+
+### 5-Stock Strategy Metrics (5-year period)
+
+| Strategy | Ann. Return | Ann. Volatility | Sharpe | Max Drawdown | Historical VaR (95%) |
+|---|---|---|---|---|---|
+| Equal Weight | 8.84% | 14.30% | 0.164 | -21.64% | -1.35% |
+| Defensive | 10.07% | 14.06% | 0.254 | -23.78% | -1.33% |
+| Decorrelation | 8.36% | 14.33% | 0.130 | -23.60% | -1.38% |
+
+### Historical vs Monte Carlo VaR (5-stock)
+
+| Strategy | Historical VaR | Monte Carlo VaR | Difference |
+|---|---|---|---|
+| Equal Weight | -1.35% | -1.43% | +0.08% |
+| Defensive | -1.33% | -1.44% | +0.11% |
+| Decorrelation | -1.38% | -1.46% | +0.09% |
+
+### COVID Stress Test (Feb–Apr 2020, weights from 5-year optimization)
+
+| Strategy | Ann. Return | Ann. Volatility | Sharpe | Max Drawdown | Historical VaR (95%) |
+|---|---|---|---|---|---|
+| Equal Weight | -42.99% | 59.56% | -0.831 | -37.34% | -6.33% |
+| Defensive | -48.35% | 57.79% | -0.949 | -36.38% | -5.89% |
+| Decorrelation | -41.65% | 58.21% | -0.827 | -36.37% | -6.19% |
+
+### Key findings
+1. **Strategy ranking flipped from Week 2.** With 5 stocks, Defensive leads on Sharpe (coincidence of this dataset — ICICI Bank and ITC happened to have both the lowest volatility and best individual Sharpe ratios, so min-variance optimization captured return upside it wasn't designed to target). Equal Weight still wins on max drawdown.
+2. **Historical vs Monte Carlo VaR gap narrowed and reversed sign** compared to the 3-stock Week 2 result — diversification across 5 stocks pulled the return distribution closer to normal, reducing (but not eliminating) the fat-tail effect.
+3. **Defensive failed under stress.** The same strategy that won on Sharpe in calm conditions became the *worst* performer during the COVID crash (Sharpe -0.95 vs -0.83 for the others) — its min-variance weights were optimized against a covariance structure that broke down exactly when it mattered. Demonstrates a core limitation of static mean-variance optimization.
+4. **Correlation is regime-dependent, not stable.** Rolling 60-day HDFC–ICICI correlation cycles between ~0.15 and ~0.75 even in normal conditions, and reached 0.80 during the COVID stress test — crisis periods push correlation toward the upper end of an already-volatile range rather than creating an entirely new regime.
+
+### Carry-forward to Week 4
+Move from notebook-based analysis to an interactive Streamlit dashboard.
+
 ## Built with
 Python, pandas, yfinance, matplotlib, numpy
 
