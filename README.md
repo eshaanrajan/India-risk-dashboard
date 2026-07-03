@@ -123,8 +123,21 @@ Calculated 1-day Value at Risk (VaR) for each strategy using two methods: Histor
 3. **Defensive failed under stress.** The same strategy that won on Sharpe in calm conditions became the worst performer during the COVID crash (Sharpe -0.95 vs -0.83 for the others) — its min-variance weights were optimized against a covariance structure that broke down exactly when it mattered. Demonstrates a core limitation of static mean-variance optimization.
 4. **Correlation is regime-dependent, not stable.** Rolling 60-day HDFC–ICICI correlation cycles between ~0.15 and ~0.75 even in normal conditions, and reached 0.80 during the COVID stress test — crisis periods push correlation toward the upper end of an already-volatile range rather than creating an entirely new regime.
 
-### Carry-forward to Week 4
-Move from notebook-based analysis to an interactive Streamlit dashboard.
+## Week 4: Interactive Streamlit Dashboard
+
+Built an interactive Streamlit dashboard (`app.py`) bringing together Weeks 1–3 into a single live application:
+- Dynamic ticker selector (choose any subset of the 5-stock universe)
+- Strategy toggle (Equal Weight, Defensive/Min-Variance, Decorrelation)
+- Live-updating portfolio weights chart
+- Live-updating correlation heatmap
+- Generalized `risk_report()` function — now works across any stock subset and any weighting, not just fixed portfolios
+- Historical VaR vs Monte Carlo VaR comparison with dynamic interpretation
+- Cumulative returns chart (growth of ₹1 invested)
+- On-demand COVID crash stress test (Feb–Apr 2020) with before/after metrics comparison
+
+Key finding: the VaR method divergence (Historical vs Monte Carlo) isn't one-directional — which method is more conservative depends on the specific stock/strategy combination selected, not a fixed relationship.
+
+**Run locally:** `streamlit run app.py`
 
 ## Built with
 Python, pandas, yfinance, numpy, scipy, Plotly
