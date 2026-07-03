@@ -143,4 +143,4 @@ Key finding: the VaR method divergence (Historical vs Monte Carlo) isn't one-dir
 Python, pandas, yfinance, numpy, scipy, Plotly
 
 ## Status
-🚧 In progress — Week 3 of 8 complete. Next: Streamlit dashboard (Week 4).
+🚧 In progress — Week 4 of 8 complete. Next: Week 5.
