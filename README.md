@@ -125,6 +125,8 @@ Calculated 1-day Value at Risk (VaR) for each strategy using two methods: Histor
 
 ## Week 4: Interactive Streamlit Dashboard
 
+🔗 **Live Dashboard:** [india-risk-dashboard-eshaan.streamlit.app](https://india-risk-dashboard-eshaan.streamlit.app)
+
 Built an interactive Streamlit dashboard (`app.py`) bringing together Weeks 1–3 into a single live application:
 - Dynamic ticker selector (choose any subset of the 5-stock universe)
 - Strategy toggle (Equal Weight, Defensive/Min-Variance, Decorrelation)
