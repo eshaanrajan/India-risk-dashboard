@@ -24,6 +24,15 @@ TICKERS = {
     "ITC": "ITC.NS"
 }
 
+# --- Sector mapping ---
+SECTOR_MAP = {
+    "HDFC Bank": "Financials",
+    "ICICI Bank": "Financials",
+    "Reliance": "Energy",
+    "Infosys": "IT",
+    "ITC": "FMCG"
+}
+
 # --- Cached data loader ---
 @st.cache_data
 def load_data(tickers, start="2019-01-01"):
@@ -36,11 +45,29 @@ prices = load_data(TICKERS)
 # --- Sidebar controls ---
 st.sidebar.header("Portfolio Controls")
 
+all_sectors = sorted(set(SECTOR_MAP.values()))
+
+selected_sectors = st.sidebar.multiselect(
+    "Select sectors",
+    options=all_sectors,
+    default=all_sectors
+)
+
+# Only show stocks that belong to the selected sector(s)
+available_stocks = [stock for stock in TICKERS.keys() if SECTOR_MAP[stock] in selected_sectors]
+
 selected_stocks = st.sidebar.multiselect(
     "Select stocks",
-    options=list(TICKERS.keys()),
-    default=list(TICKERS.keys())
+    options=available_stocks,
+    default=available_stocks
 )
+
+# Guard: strip out any stale selections that are no longer valid under the current sector filter
+selected_stocks = [stock for stock in selected_stocks if stock in available_stocks]
+
+if not selected_stocks:
+    st.warning("Please select at least one stock to view the dashboard.")
+    st.stop()
 
 strategy = st.sidebar.selectbox(
     "Weighting strategy",
@@ -90,7 +117,8 @@ else:  # Decorrelation
 
 weights_df = pd.DataFrame({
     "Stock": selected_stocks,
-    "Weight": weights
+    "Weight": weights,
+    "Sector": [SECTOR_MAP[stock] for stock in selected_stocks]
 })
 
 # --- Generalized risk_report function ---
@@ -118,8 +146,7 @@ def risk_report(returns_series, weights_array=None, risk_free_rate=0.065):
 
 metrics = risk_report(returns, weights)
 
-# --- Layout: two columns ---
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
     st.subheader("Portfolio Weights")
@@ -128,6 +155,12 @@ with col1:
     st.plotly_chart(fig_weights, use_container_width=True)
 
 with col2:
+    st.subheader("Sector Allocation")
+    sector_weights = weights_df.groupby("Sector")["Weight"].sum().reset_index()
+    fig_sector = px.pie(sector_weights, names="Sector", values="Weight", hole=0.4)
+    st.plotly_chart(fig_sector, use_container_width=True)
+
+with col3:
     st.subheader("Correlation Heatmap")
     corr = returns.corr()
     fig_heatmap = px.imshow(
