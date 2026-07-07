@@ -141,6 +141,28 @@ Key finding: the VaR method divergence (Historical vs Monte Carlo) isn't one-dir
 
 **Run locally:** `streamlit run app.py`
 
+## Week 5 — Sector Analysis, DCF Modeling & SQL Basics
+
+**Day 1 — Sector Filter (Streamlit Dashboard)**
+- Added sector-level filtering (`SECTOR_MAP`) that cascades to stock selection
+- New Sector Allocation donut chart showing concentration risk by sector
+- Fixed a stale-selection bug (multiselect not pruning invalid options after filter changes)
+- Added graceful empty-state handling (guard clause instead of app crash on zero selections)
+- Shipped to production: [live dashboard](https://india-risk-dashboard-eshaan.streamlit.app)
+
+**Day 2 — DCF Valuation Model (Excel)**
+- Built a full 5-year DCF model for Infosys using real FY26 financials (revenue, operating margin, net cash position)
+- Covered revenue projection, NOPAT/FCF build, WACC-based discounting, Gordon Growth terminal value, and equity value → implied share price
+- Sensitivity test: recalibrating the growth assumption from an optimistic 8% to guidance-aligned 3% moved the model's implied fair value from ₹1,259 to ₹1,041.51 — converging almost exactly with Infosys's actual market price (~₹1,042) at the time
+- Key takeaway: terminal value drove ~74% of enterprise value, demonstrating how sensitive DCF outputs are to long-term growth/WACC assumptions
+
+**Day 3 — SQL Basics**
+- Built a local SQLite database (`india_risk.db`) from the project's stock price data
+- Covered `SELECT`, `WHERE`, `ORDER BY`, `GROUP BY` with aggregates, and `JOIN` across a price table and a sector reference table
+- Applied SQL to the same sector-grouping logic used in the Streamlit dashboard, reinforcing how reference-table joins work in production databases
+
+**Status:** Week 5 complete. Dashboard is feature-complete through sector filtering; DCF and SQL fundamentals now part of the skillset alongside the core Python/Streamlit project.
+
 ## Built with
 Python, pandas, yfinance, numpy, scipy, Plotly
 
