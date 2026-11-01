@@ -36,12 +36,6 @@ Built an equal-weighted 3-stock portfolio (HDFC Bank, Reliance, Infosys) to test
 On a ₹10L portfolio, this analysis implies a 1-in-20 day loss exceeding ₹13,262 (95% VaR) and a 1-in-100 day loss exceeding ₹24,961 (99% VaR).
 
 ### Correlation matrix
-| | HDFC Bank | Infosys | Reliance |
-|---|---|---|---|
-| HDFC Bank | 1.000 | 0.171 | 0.338 |
-| Infosys | 0.171 | 1.000 | 0.246 |
-| Reliance | 0.338 | 0.246 | 1.000 |
-
 ![Correlation heatmap](correlation_heatmap.png)
 
 ## Week 2: Portfolio Strategies & VaR
